@@ -1,9 +1,24 @@
-const request = require('request');
+ const yargs = require('yargs');
 
-request({
-    url :'http://maps.googleapis.com/maps/api/geocode/json?address=1301%20lombard%20street%20philadelphia'
-    ,json:true
-},(error,respnse,body)=>
-{
-    console.log(JSON.stringify(body,undefined,2));
+ const geo_code = require('./geo-code/geo-code');
+
+const argv = yargs.options({
+    address:{
+        demand:true,
+        alies:'a',
+        discribe:'Enter your address',
+        string:true
+    }
 })
+.help()
+.alias('help','h')
+.argv
+
+//console.log(argv);
+
+var uri = encodeURIComponent(argv.address);
+//console.log(uri);
+geo_code.get_geocode(uri);
+
+
+//"1301 Lombard street philadelphia"
